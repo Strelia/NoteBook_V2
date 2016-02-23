@@ -39,16 +39,16 @@ public class RdoDao {
     }
 
     public ArrayList<Rdo> getAllRdos(){
-        ArrayList<Rdo> airports = new ArrayList<>();
+        ArrayList<Rdo> rdos = new ArrayList<>();
 
         try{
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM rdo");
             while (rs.next()){
                 Rdo rdo = new Rdo();
-                rdo.setIdRdo(rs.getInt("id_rdo"));
+                rdo.setIdRdo(rs.getLong("id_rdo"));
                 rdo.setName(rs.getString("name"));
-                airports.add(rdo);
+                rdos.add(rdo);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class RdoDao {
             e.printStackTrace();
         }
 
-        return airports;
+        return rdos;
     }
 
     public Rdo getRdoById(long rdoId){
@@ -66,7 +66,7 @@ public class RdoDao {
             preparedStatement.setLong(1, rdoId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()){
-                rdo.setIdRdo(rs.getInt("idRdo"));
+                rdo.setIdRdo(rs.getInt("id_rdo"));
                 rdo.setName(rs.getString("name"));
             }
         } catch (SQLException e) {

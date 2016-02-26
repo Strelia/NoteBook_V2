@@ -4,6 +4,7 @@ package com.gerbi.controller;
 import com.gerbi.dao.RdoDao;
 import com.gerbi.dao.UserDao;
 import com.gerbi.model.User;
+import com.gerbi.util.Auth;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,26 +33,37 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String forward = "";
-        String action = req.getParameter("action");
-        if (action.equalsIgnoreCase("edit")) {
-            forward = INSERT_OR_EDIT;
-            long userId = Long.valueOf(req.getParameter("userId"));
-            User user = userDao.getUserById(userId);
-            req.setAttribute("edit", true);
-            req.setAttribute("rdos", rdoDao.getAllRdos());
-            req.setAttribute("user", user);
-        } else if (action.equalsIgnoreCase("userList")) {
-            forward = LIST_USER;
-            req.setAttribute("users", userDao.getAllUsers());
-        } else {
-            req.setAttribute("rdos", rdoDao.getAllRdos());
-            forward = INSERT_OR_EDIT;
-        }
 
-        RequestDispatcher view = req.getRequestDispatcher(forward);
-        view.forward(req, resp);
+        if (!Auth.isLoged(req)) {
+            resp.sendRedirect("/login");
+        } else if (req.getQueryString() == null) {
+            resp.sendRedirect("/user?action=userList");
+        } else if (!"admin".equals(Auth.getValueCookie(req, "edocUserRole"))) {
+            resp.sendRedirect("/record?action=request");
+        } else {
+            String action = req.getParameter("action");
+            String forward = "";
+
+            if ("edit".equalsIgnoreCase(action)) {
+                forward = INSERT_OR_EDIT;
+                long userId = Long.valueOf(req.getParameter("userId"));
+                User user = userDao.getUserById(userId);
+                req.setAttribute("edit", true);
+                req.setAttribute("rdos", rdoDao.getAllRdos());
+                req.setAttribute("user", user);
+            } else if ("userList".equalsIgnoreCase(action)) {
+                forward = LIST_USER;
+                req.setAttribute("users", userDao.getAllUsers());
+            } else {
+                req.setAttribute("rdos", rdoDao.getAllRdos());
+                forward = INSERT_OR_EDIT;
+            }
+
+            RequestDispatcher view = req.getRequestDispatcher(forward);
+            view.forward(req, resp);
+        }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -64,15 +76,17 @@ public class UserController extends HttpServlet {
         user.setRdo(rdoDao.getRdoById(Long.valueOf(req.getParameter("rdo"))));
         user.setUserRole(req.getParameter("userRole"));
         String idUser = req.getParameter("idUser");
-        if(idUser == null || idUser.isEmpty()){
+        if (idUser == null || idUser.isEmpty()) {
             userDao.addUser(user);
         } else {
             user.setIdUser(Long.valueOf(idUser));
             userDao.updateUser(user);
         }
 
-        RequestDispatcher view = req.getRequestDispatcher(LIST_USER);
-        req.setAttribute("users", userDao.getAllUsers());
-        view.forward(req,resp);
+        resp.sendRedirect("/user?action=userList");
+
+//        RequestDispatcher view = req.getRequestDispatcher(LIST_USER);
+//        req.setAttribute("users", userDao.getAllUsers());
+//        view.forward(req,resp);
     }
 }

@@ -11,6 +11,9 @@
     <title>Title</title>
 </head>
 <body>
-welcome
+<script>
+    window.location="/login";
+</script>
+26.02.16 5 часов ночи моя работа, по тихоньку движиться!)))
 </body>
 </html>

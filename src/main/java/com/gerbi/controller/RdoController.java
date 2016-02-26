@@ -2,6 +2,7 @@ package com.gerbi.controller;
 
 import com.gerbi.dao.RdoDao;
 import com.gerbi.model.Rdo;
+import com.gerbi.util.Auth;
 
 
 import javax.servlet.RequestDispatcher;
@@ -28,31 +29,40 @@ public class RdoController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String forward = "";
-        String action = req.getParameter("action");
-        if (action.equalsIgnoreCase("rdoList") || action.isEmpty() || action == null) {
-            forward = LIST_RDO;
-            req.setAttribute("rdos", rdoDao.getAllRdos());
-            req.setAttribute("test", rdoDao.getAllRdos().isEmpty());
+        if (!Auth.isLoged(req)) {
+            resp.sendRedirect("/login");
+        } else if (req.getQueryString() == null) {
+            resp.sendRedirect("/rdo?action=rdoList");
+        } else if (!"admin".equals(Auth.getValueCookie(req, "edocUserRole"))) {
+            resp.sendRedirect("/record?action=request");
         } else {
-            forward = INSERT_OR_EDIT;
-        }
 
-        RequestDispatcher view = req.getRequestDispatcher(forward);
-        view.forward(req, resp);
+            String forward = "";
+            String action = req.getParameter("action");
+            if (action.equalsIgnoreCase("rdoList") || action.isEmpty() || action == null) {
+                forward = LIST_RDO;
+                req.setAttribute("rdos", rdoDao.getAllRdos());
+            } else {
+                forward = INSERT_OR_EDIT;
+            }
+
+            RequestDispatcher view = req.getRequestDispatcher(forward);
+            view.forward(req, resp);
+        }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Rdo rdo = new Rdo();
         rdo.setName(req.getParameter("rdoName"));
         String idRdo = req.getParameter("idRdo");
-        if(idRdo == null || idRdo.isEmpty()){
+        if (idRdo == null || idRdo.isEmpty()) {
             rdoDao.addRdo(rdo);
         }
 
         RequestDispatcher view = req.getRequestDispatcher(LIST_RDO);
         req.setAttribute("rdos", rdoDao.getAllRdos());
-        view.forward(req,resp);
+        view.forward(req, resp);
     }
 }

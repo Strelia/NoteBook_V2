@@ -7,17 +7,4 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    <!--<servlet>-->
-        <!--<servlet-name>LocalityController</servlet-name>-->
-        <!--<servlet-class>controller.LocalityController</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>LocalityController</servlet-name>-->
-        <!--<url-pattern>/LocalityController</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
 </web-app>

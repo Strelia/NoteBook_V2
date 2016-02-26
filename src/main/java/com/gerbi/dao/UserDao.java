@@ -72,21 +72,44 @@ public class UserDao {
     }
 
     public User getUserById(long userId){
-        User user = new User();
+        User user = null;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE id_user = ?");
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                RdoDao rdoDao = new RdoDao();
-                user.setIdUser(resultSet.getLong("id_user"));
-                user.setFirstname(resultSet.getString("firstname"));
-                user.setLastname(resultSet.getString("lastname"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setRdo(rdoDao.getRdoById(resultSet.getLong("id_rdo")));
-                user.setUserRole(resultSet.getString("user_role"));
-            }
+            user = resultSet(resultSet);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public User getUserByEmail(String email){
+        User user = new User();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            user = resultSet(resultSet);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    private User resultSet(ResultSet resultSet){
+        User user = new User();
+        try{
+        while (resultSet.next()) {
+            RdoDao rdoDao = new RdoDao();
+            user.setIdUser(resultSet.getLong("id_user"));
+            user.setFirstname(resultSet.getString("firstname"));
+            user.setLastname(resultSet.getString("lastname"));
+            user.setEmail(resultSet.getString("email"));
+            user.setPassword(resultSet.getString("password"));
+            user.setRdo(rdoDao.getRdoById(resultSet.getLong("id_rdo")));
+            user.setUserRole(resultSet.getString("user_role"));
+        }
         }catch (SQLException e){
             e.printStackTrace();
         }

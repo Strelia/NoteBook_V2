@@ -1,12 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <link href="<c:url value='/static/css/reset.css'/>" rel="stylesheet"/>
     <link href="<c:url value='/static/css/bootstrap.css'/>" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="<c:url value='/static/js/bootstrap.js'/>"></script>
-    <title>Title</title>
+    <title>Користувач</title>
 </head>
 <body>
 <div class="container">
@@ -78,7 +79,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">РДО</span>
                 <div class="col-md-7">
-                    <select name="rdo">
+                    <select name="rdo" class="form-control input-sm">
                         <c:forEach items="${rdos}" var="rdo">
                             <option value="${rdo.idRdo}" ${rdo.idRdo == user.rdo.idRdo ? "selected" : ""}>${rdo.name}</option>
                         </c:forEach>
@@ -91,7 +92,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Роль</span>
                 <div class="col-md-7">
-                    <select name="userRole">
+                    <select name="userRole" class="form-control input-sm">
                         <option value="admin" ${"admin" == user.userRole ? "selected" : ""}>Администратор</option>
 
                         <option value="manager" ${"manager" == user.userRole ? "selected" : ""}>Менеджер</option>

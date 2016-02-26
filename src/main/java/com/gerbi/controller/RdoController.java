@@ -29,7 +29,7 @@ public class RdoController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!Auth.isLoged(req)) {
+        if (!Auth.isLoged(req,resp)) {
             resp.sendRedirect("/login");
         } else if (req.getQueryString() == null) {
             resp.sendRedirect("/rdo?action=rdoList");

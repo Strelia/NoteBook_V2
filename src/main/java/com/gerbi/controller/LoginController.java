@@ -22,7 +22,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (Auth.isLoged(req)) {
+        if (Auth.isLoged(req,resp)) {
             if("admin".equals(Auth.getValueCookie(req, "edocUserRole"))){
                 resp.sendRedirect("/user");
             }else {
@@ -40,9 +40,8 @@ public class LoginController extends HttpServlet {
         String email = req.getParameter("inputEmail");
         String password = req.getParameter("inputPassword");
         String rememberMe = req.getParameter("remember-me");
-        User user = userDao.getUserByEmail("root@root.root");
-
-        if (user == null || !user.getPassword().equals(password)) {
+        User user = userDao.getUserByEmail(email);
+        if (user.getEmail() == null || !user.getPassword().equals(password)) {
             req.setAttribute("errorInput", true);
             RequestDispatcher view = req.getRequestDispatcher("/login.jsp");
             view.forward(req, resp);

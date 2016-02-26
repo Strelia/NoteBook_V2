@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <div class="well lead">Запис на відправку</div>
-    <form method="post" action="/record">
+    <form method="post" action="/record" enctype="multipart/form-data">
 
         <%--id_record--%>
         <div class="row">
@@ -21,7 +21,7 @@
                 <span class="col-md-3 control-lable">ID Користувача</span>
                 <div class="col-md-7">
                     <input type="text" readonly name="idUser" class="form-control input-sm"
-                           value="<c:out value="${record.idUser}"/>"/>
+                           value="<c:out value="${record.idRecord}"/>"/>
                 </div>
             </div>
         </div>
@@ -68,7 +68,8 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Зміст документа</span>
                 <div class="col-md-7">
-                    <textarea name="description_request" class="form-control input-sm" style="resize:none" cols="150" rows="8"></textarea>
+                    <textarea name="description_request" class="form-control input-sm" style="resize:none" cols="150"
+                              rows="8"></textarea>
                 </div>
             </div>
         </div>
@@ -91,17 +92,6 @@
                             <option value="${rdo.idRdo}" ${rdo.idRdo == user.rdo.idRdo ? "selected" : ""}>${rdo.name}</option>
                         </c:forEach>
                     </select>
-                </div>
-            </div>
-        </div>
-
-        <%--date_sent--%>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <span class="col-md-3 control-lable">Дата передачі документа</span>
-                <div class="col-md-7">
-                    <input type="date" name="date_sent" class="form-control input-sm"
-                           value="<fmt:formatDate type="date" pattern="yyyy-MM-dd" value="${currentDate}"/>">
                 </div>
             </div>
         </div>

@@ -19,7 +19,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">№ документа</span>
                 <div class="col-md-7">
-                    ${record.number}
+                    <p class="text-muted">${record.number}</p>
                 </div>
             </div>
         </div>
@@ -28,7 +28,8 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Дата надходження</span>
                 <div class="col-md-7">
-                    <fmt:formatDate type="date" pattern="yyyy-MM-dd" value="${record.dateOfReceiptOfRequest}"/>
+                    <p class="text-muted"><fmt:formatDate type="date" pattern="yyyy-MM-dd"
+                                                          value="${record.dateOfReceiptOfRequest}"/></p>
                 </div>
             </div>
         </div>
@@ -38,7 +39,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Кореспондент</span>
                 <div class="col-md-7">
-                    ${record.correspondent}
+                    <p class="text-muted">${record.correspondent}</p>
                 </div>
             </div>
         </div>
@@ -47,7 +48,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Назва документа</span>
                 <div class="col-md-7">
-                    ${record.nameRequest}
+                    <p class="text-muted">${record.nameRequest}</p>
                 </div>
             </div>
         </div>
@@ -56,7 +57,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Зміст документа</span>
                 <div class="col-md-7">
-                    ${record.descriptionRequest}
+                    <p class="text-muted">${record.descriptionRequest}</p>
                 </div>
             </div>
         </div>
@@ -65,7 +66,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Файл документа</span>
                 <div class="col-md-7">
-                    <a href="${record.fileRequest}">${fileNameRequest}</a>
+                    <a class="btn btn-default btn-lg active" href="${record.fileRequest}">${fileNameRequest}</a>
                 </div>
             </div>
         </div>
@@ -74,7 +75,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">РДО якому передається</span>
                 <div class="col-md-7">
-                    ${record.rdo.name}
+                    <p class="text-muted">${record.rdo.name}</p>
                 </div>
             </div>
         </div>
@@ -84,7 +85,8 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Дата передачі</span>
                 <div class="col-md-7">
-                    <fmt:formatDate type="date" pattern="yyyy-MM-dd" value="${record.dateSent}"/>
+                    <p class="text-muted"><fmt:formatDate type="date" pattern="yyyy-MM-dd"
+                                                          value="${record.dateSent}"/></p>
                 </div>
             </div>
         </div>
@@ -94,16 +96,20 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Дата передачі</span>
                 <div class="col-md-7">
-                    <fmt:formatDate type="date" pattern="yyyy-MM-dd" value="${record.dateWork}"/>
+                    <p class="text-muted"><fmt:formatDate type="date" pattern="yyyy-MM-dd"
+                                                          value="${record.dateWork}"/></p>
                 </div>
             </div>
         </div>
 
         <%--record_status--%>
-        <div class="checkbox">
-            <label>
-                ${record.recordStatus?"Прийняти": "Відмова"}
-            </label>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <span class="col-md-3 control-lable">Дата передачі</span>
+                <div class="col-md-7">
+                    <p class="text-muted">${record.recordStatus?"Прийняти": "Відмова"}</p>
+                </div>
+            </div>
         </div>
 
         <%--file_answer--%>
@@ -112,7 +118,7 @@
                 <span class="col-md-3 control-lable">Файл відмова</span>
                 <div class="col-md-7">
                     <input type="file" name="file_answer" class="btn btn-info">
-                    <a href="${record.fileAnswer}">${fileNameAnswer}</a>
+                    <a class="btn btn-default btn-lg active" href="${record.fileAnswer}">${fileNameAnswer}</a>
                 </div>
             </div>
         </div>

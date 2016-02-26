@@ -36,7 +36,8 @@
                     "success" : "danger"}">
                         <td>${record.number}</td>
                         <td>${record.correspondent}</td>
-                        <td><fmt:formatDate type="DATE" pattern="yyyy-MM-dd" value="${record.dateOfReceiptRequest}"/></td>
+                        <td><fmt:formatDate type="DATE" pattern="yyyy-MM-dd"
+                                            value="${record.dateOfReceiptRequest}"/></td>
                         <td>${record.correspondent}</td>
                         <td>${record.nameRequest}</td>
                         <td>${fn:substring(records.descriptionRequest,0,15)}</td>
@@ -54,8 +55,7 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="col-lg-10">
+        <div class="col-lg-10" ${userRole != "manager"?"hidden":""}>
             <a class="btn btn-info" href="/record?action=addNewRecord">Add record</a>
         </div>
     </div>

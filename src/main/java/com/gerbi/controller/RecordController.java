@@ -42,24 +42,24 @@ public class RecordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getQueryString() == null) {
-            resp.sendRedirect("/record?action=request");
+            resp.sendRedirect("/record?action=recordList");
         } else {
 
             String forward = "";
             String action = req.getParameter("action");
             String title = "";
 
-            String userRole = Auth.getValueCookie(req, "userRole");
+            String userRole = Auth.getValueCookie(req, "edocUserRole");
 
             if (action.equalsIgnoreCase("request")) {
 
                 long recordId = Long.valueOf(req.getParameter("recordId"));
                 Record record = recordDao.getRecordById(recordId);
 
-                if(!record.getRecordRead()|| "user".equals(userRole)) {
+                if (!record.getRecordRead() || "user".equals(userRole)) {
                     forward = INSERT_OR_EDIT_USER;
                 } else {
-                    forward =INSERT_OR_EDIT_ALL;
+                    forward = INSERT_OR_EDIT_ALL;
                 }
                 title = "Запис №" + record.getNumber();
                 req.setAttribute("rdos", rdoDao.getAllRdos());
@@ -68,14 +68,11 @@ public class RecordController extends HttpServlet {
             } else if (action.equalsIgnoreCase("recordList")) {
                 forward = LIST_RECORD;
                 req.setAttribute("records", recordDao.getAllRecord());
-                req.setAttribute("userRole",userRole);
+                req.setAttribute("userRole", userRole);
             } else {
                 title = "Створення нового запису";
                 Record record = new Record();
                 UserDao userDao = new UserDao();
-                record.setDateOfReceiptOfRequest(new Date());
-                record.setUserSender(userDao.getUserByEmail(Auth.getValueCookie(req,"edocUserEmail")));
-                req.setAttribute("record", record);
                 req.setAttribute("rdos", rdoDao.getAllRdos());
                 forward = INSERT_OR_EDIT_MANAGER;
             }
@@ -101,27 +98,30 @@ public class RecordController extends HttpServlet {
         record.setDescriptionRequest(req.getParameter("description_request"));
         record.setFileRequest(req.getParameter("file_request"));
         record.setRdo(rdoDao.getRdoById(Long.valueOf(req.getParameter("rdo"))));
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("date_sent"));
-            record.setDateSent(date);
-
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("date_work"));
-            record.setDateWork(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        record.setUserSender(userDao.getUserById(Long.valueOf("user_sender")));
-        record.setRecordStatus("accept".equals(req.getParameter("record_status"))? true : false);
-        record.setFileAnswer(req.getParameter("file_answer"));
+        record.setDateSent(new Date());
 
         String idRecord = req.getParameter("idRecord");
+
         if (idRecord == null || idRecord.isEmpty()) {
+
+            record.setUserSender(userDao.getUserByEmail(req.getParameter("user_sender")));
             record.setRecordRead(false);
             recordDao.addRecord(record);
+
         } else {
+
+            try {
+                date = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("date_work"));
+                record.setDateWork(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            record.setRecordStatus("accept".equals(req.getParameter("record_status")) ? true : false);
+            record.setFileAnswer(req.getParameter("file_answer"));
             record.setRecordRead(true);
             record.setIdRecord(Long.valueOf(idRecord));
             recordDao.updateRecord(record);
+
         }
 
         RequestDispatcher view = req.getRequestDispatcher(LIST_RECORD);

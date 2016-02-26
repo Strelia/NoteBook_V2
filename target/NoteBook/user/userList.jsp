@@ -6,7 +6,7 @@
     <link href="<c:url value='/static/css/bootstrap.css'/>" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="<c:url value='/static/js/bootstrap.js'/>"></script>
-    <title>Title</title>
+    <title>Список користувачів</title>
 </head>
 <body>
 <div class="container">

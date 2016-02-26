@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <div class="well lead">Запис на прийом</div>
-    <form method="post" action="/record">
+    <form method="post" action="/record" enctype="multipart/form-data">
 
         <%--id_record--%>
         <div class="row">
@@ -22,7 +22,7 @@
                 <span class="col-md-3 control-lable">ID Користувача</span>
                 <div class="col-md-7">
                     <input type="text" readonly name="idUser" class="form-control input-sm"
-                           value="<c:out value="${record.idUser}"/>"/>
+                           value="<c:out value="${record.idRecord}"/>"/>
                 </div>
             </div>
         </div>

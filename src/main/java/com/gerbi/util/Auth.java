@@ -7,23 +7,30 @@ import javax.servlet.SessionCookieConfig;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class Auth {
 
 
-    public static boolean isLoged(HttpServletRequest request) {
+    public static boolean isLoged(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
-        Boolean checkLoger = false;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("edocLoged")) {
-                checkLoger = Boolean.valueOf(cookie.getValue());
-                break;
+        if (cookies != null) {
+            if ("true".equals(getValueCookie(request, "edocLoged"))) {
+                return true;
+            } else {
+                return false;
             }
+        } else {
+
+            return false;
         }
-        return checkLoger;
     }
 
     public static void login(HttpServletResponse response, User user, Boolean saveMe) {
+        System.out.println(user.getUserRole());
+        System.out.println(user.getEmail());
+
+
         Cookie edocUserRole = new Cookie("edocUserRole", user.getUserRole());
         Cookie edocUserEmail = new Cookie("edocUserEmail", user.getEmail());
         Cookie edocLogged = new Cookie("edocLoged", "true");

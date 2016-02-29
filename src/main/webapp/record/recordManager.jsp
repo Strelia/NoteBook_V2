@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <div class="well lead">Запис на відправку</div>
-    <form method="post" action="/record" enctype="multipart/form-data">
+    <form method="post" action="record" enctype="multipart/form-data">
 
         <%--id_record--%>
         <div class="row">

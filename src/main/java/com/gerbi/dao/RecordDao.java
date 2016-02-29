@@ -21,8 +21,8 @@ public class RecordDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO record" +
                     " (id_record, number, date_of_receipt_request, correspondent, name_request, description_request," +
-                    " file_request,  rdo, date_sent, date_work, user_sender, record_status, file_answer, record_read)" +
-                    " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+                    " file_request,  rdo, date_sent, user_sender, record_read)" +
+                    " VALUES (?,?,?,?,?,?,?,?,?,?,?) ");
             preparedStatement.setLong(1, record.getIdRecord());
             preparedStatement.setLong(2, record.getNumber());
             preparedStatement.setDate(3, new java.sql.Date(record.getDateOfReceiptOfRequest().getTime()));
@@ -32,11 +32,8 @@ public class RecordDao {
             preparedStatement.setString(7, record.getFileRequest());
             preparedStatement.setLong(8, record.getRdo().getIdRdo());
             preparedStatement.setDate(9, new java.sql.Date(record.getDateSent().getTime()));
-            preparedStatement.setDate(10, new java.sql.Date(record.getDateWork().getTime()));
-            preparedStatement.setLong(11, record.getUserSender().getIdUser());
-            preparedStatement.setBoolean(12, record.getRecordStatus());
-            preparedStatement.setString(13, record.getFileAnswer());
-            preparedStatement.setBoolean(14, record.getRecordRead());
+            preparedStatement.setLong(10, record.getUserSender().getIdUser());
+            preparedStatement.setBoolean(11, record.getRecordRead());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,8 +43,8 @@ public class RecordDao {
     public void updateRecord(Record record) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE record SET " +
-                    "number=?, date_of_receipt_request=?, correspondent=?, name_request=?, description_request=?,"+
-                    "file_request=?, rdo=?,date_sent=?, date_work=?, user_sender=?, record_status=?, file_answer=?,"+
+                    "number=?, date_of_receipt_request=?, correspondent=?, name_request=?, description_request=?," +
+                    "file_request=?, rdo=?,date_sent=?, date_work=?, user_sender=?, record_status=?, file_answer=?," +
                     "record_read=? WHERE id_record = ?");
             preparedStatement.setLong(1, record.getNumber());
             preparedStatement.setDate(2, new java.sql.Date(record.getDateOfReceiptOfRequest().getTime()));
@@ -72,7 +69,7 @@ public class RecordDao {
     public Record getRecordById(long idRecord) {
         Record record = new Record();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM record WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM record WHERE id_record=?");
             preparedStatement.setLong(1, idRecord);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -90,7 +87,7 @@ public class RecordDao {
                 record.setDateWork(resultSet.getDate("date_work"));
                 record.setUserSender(userDao.getUserById(resultSet.getLong("user_sender")));
                 record.setRecordStatus(resultSet.getBoolean("record_status"));
-                record.setFileRequest(resultSet.getString("file_answer"));
+                record.setFileAnswer(resultSet.getString("file_answer"));
                 record.setRecordStatus(resultSet.getBoolean("record_read"));
             }
         } catch (SQLException e) {
@@ -121,7 +118,7 @@ public class RecordDao {
                 record.setDateWork(resultSet.getDate("date_work"));
                 record.setUserSender(userDao.getUserById(resultSet.getLong("user_sender")));
                 record.setRecordStatus(resultSet.getBoolean("record_status"));
-                record.setFileRequest(resultSet.getString("file_answer"));
+                record.setFileAnswer(resultSet.getString("file_answer"));
                 record.setRecordStatus(resultSet.getBoolean("record_read"));
                 records.add(record);
             }

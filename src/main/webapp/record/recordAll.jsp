@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="well lead">Запис на прийом</div>
+    <div class="well lead">Перегляд запису</div>
     <form method="post" action="/record">
         <%--number--%>
         <div class="row">
@@ -66,7 +66,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Файл документа</span>
                 <div class="col-md-7">
-                    <a class="btn btn-default btn-lg active" href="${record.fileRequest}">${fileNameRequest}</a>
+                    <a class="btn btn-default btn-lg active" href="${record.fileRequest}">${record.nameRequest}</a>
                 </div>
             </div>
         </div>
@@ -90,11 +90,20 @@
                 </div>
             </div>
         </div>
+            <%--user_sender--%>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <span class="col-md-3 control-lable">Почта відпраляючого</span>
+                    <div class="col-md-7">
+                        <p class="text-muted">${record.userSender.email}</p>
+                    </div>
+                </div>
+            </div>
 
         <%--date_work--%>
         <div class="row">
             <div class="form-group col-md-12">
-                <span class="col-md-3 control-lable">Дата передачі</span>
+                <span class="col-md-3 control-lable">Дата роботи</span>
                 <div class="col-md-7">
                     <p class="text-muted"><fmt:formatDate type="date" pattern="yyyy-MM-dd"
                                                           value="${record.dateWork}"/></p>
@@ -105,27 +114,47 @@
         <%--record_status--%>
         <div class="row">
             <div class="form-group col-md-12">
-                <span class="col-md-3 control-lable">Дата передачі</span>
+                <span class="col-md-3 control-lable">Статус прийняття</span>
                 <div class="col-md-7">
-                    <p class="text-muted">${record.recordStatus?"Прийняти": "Відмова"}</p>
+                    <p class="text-muted">
+                        <c:choose>
+                            <c:when test="${record.recordStatus == true && record.recordRead == true}">
+                                Прийняли
+                                <br/>
+                            </c:when>
+                            <c:when test="${record.recordStatus == false && record.recordRead == true}">
+                                Відмовили
+                                <br/>
+                            </c:when>
+                            <c:otherwise>
+                                -
+                                <br/>
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
                 </div>
             </div>
         </div>
 
         <%--file_answer--%>
-        <div class="row" id="file_answer">
-            <div class="form-group col-md-12">
-                <span class="col-md-3 control-lable">Файл відмова</span>
-                <div class="col-md-7">
-                    <input type="file" name="file_answer" class="btn btn-info">
-                    <a class="btn btn-default btn-lg active" href="${record.fileAnswer}">${fileNameAnswer}</a>
-                </div>
-            </div>
-        </div>
+        <c:choose>
+            <c:when test="${record.fileAnswer != null}">
+                Прийняли
+                <br/>
 
+                <div class="row" id="file_answer">
+                    <div class="form-group col-md-12">
+                        <span class="col-md-3 control-lable">Файл відмова</span>
+                        <div class="col-md-7">
+                                <a class="btn btn-default btn-lg active" href="${record.fileAnswer}">${record.fileAnswer}</a>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+        </c:choose>
         <div class="row">
             <div class="form-actions floatRight">
-                <a class="btn btn-danger btn-sm" href="/record?action=recordList">Повернутися назад</a>
+                <a class="btn btn-danger btn-sm" href="record?action=recordList">Повернутися назад</a>
             </div>
         </div>
     </form>

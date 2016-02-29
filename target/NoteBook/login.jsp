@@ -22,7 +22,7 @@
 
 <div class="container">
 
-    <form class="form-signin" method="post" action="/login">
+    <form class="form-signin" method="post" action="login">
         <h2 class="form-signin-heading">Будь ласка увійдіть в систему</h2>
         <c:if test="${errorInput}">
             <div class="alert alert-danger">

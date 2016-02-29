@@ -21,14 +21,9 @@
         <spring.mvc>4.2.4.RELEASE</spring.mvc>
         <spring.secure>4.0.3.RELEASE</spring.secure>
         <spring.data>1.9.2.RELEASE</spring.data>
+        <dropbox.version>2.0-beta-7</dropbox.version>
     </properties>
     <dependencies>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-        </dependency>
 
         <!-- mysql -->
         <dependency>

@@ -30,11 +30,11 @@ public class RdoController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (!Auth.isLoged(req,resp)) {
-            resp.sendRedirect("/login");
+            resp.sendRedirect("login");
         } else if (req.getQueryString() == null) {
-            resp.sendRedirect("/rdo?action=rdoList");
+            resp.sendRedirect("rdo?action=rdoList");
         } else if (!"admin".equals(Auth.getValueCookie(req, "edocUserRole"))) {
-            resp.sendRedirect("/record?action=request");
+            resp.sendRedirect("record?action=recordList");
         } else {
 
             String forward = "";
@@ -54,6 +54,7 @@ public class RdoController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         Rdo rdo = new Rdo();
         rdo.setName(req.getParameter("rdoName"));
         String idRdo = req.getParameter("idRdo");
@@ -61,8 +62,6 @@ public class RdoController extends HttpServlet {
             rdoDao.addRdo(rdo);
         }
 
-        RequestDispatcher view = req.getRequestDispatcher(LIST_RDO);
-        req.setAttribute("rdos", rdoDao.getAllRdos());
-        view.forward(req, resp);
+        resp.sendRedirect("rdo?action=rdoList");
     }
 }

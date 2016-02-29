@@ -37,26 +37,38 @@
                         <td>${record.number}</td>
                         <td>${record.correspondent}</td>
                         <td><fmt:formatDate type="DATE" pattern="yyyy-MM-dd"
-                                            value="${record.dateOfReceiptRequest}"/></td>
-                        <td>${record.correspondent}</td>
+                                            value="${record.dateOfReceiptOfRequest}"/></td>
                         <td>${record.nameRequest}</td>
-                        <td>${fn:substring(records.descriptionRequest,0,15)}</td>
+                        <td>${fn:substring(record.descriptionRequest,0,15)}</td>
                         <td>${record.rdo.name}</td>
                         <td><fmt:formatDate type="DATE" pattern="yyyy-MM-dd" value="${record.dateSent}"/></td>
                         <td><fmt:formatDate type="DATE" pattern="yyyy-MM-dd" value="${record.dateWork}"/></td>
                         <td>${record.userSender.email}</td>
-                        <td>${record.recordStatus == true && record.recordRead == true?
-                                "Прийняли" : "Відмовили"}"
+                        <td>
+                            <c:choose>
+                                <c:when test="${record.recordStatus == true && record.recordRead == true}">
+                                    Прийняли
+                                    <br />
+                                </c:when>
+                                <c:when test="${record.recordStatus == false && record.recordRead == true}">
+                                    Відмовили
+                                    <br />
+                                </c:when>
+                                <c:otherwise>
+                                    -
+                                    <br />
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                         <td><a class="btn btn-info"
-                               href="/record?action=request&recordId=<c:out value="${record.recordId}"/>"> </a></td>
+                               href="record?action=request&idRecord=${record.idRecord}"> </a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
         <div class="col-lg-10" ${userRole != "manager"?"hidden":""}>
-            <a class="btn btn-info" href="/record?action=addNewRecord">Add record</a>
+            <a class="btn btn-info" href="record?action=addNewRecord">Add record</a>
         </div>
     </div>
 </div>

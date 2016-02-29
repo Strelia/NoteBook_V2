@@ -24,9 +24,9 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (Auth.isLoged(req,resp)) {
             if("admin".equals(Auth.getValueCookie(req, "edocUserRole"))){
-                resp.sendRedirect("/user");
+                resp.sendRedirect("user");
             }else {
-                resp.sendRedirect("/record");
+                resp.sendRedirect("record");
             }
         }else {
             RequestDispatcher view = req.getRequestDispatcher("/login.jsp");
@@ -36,6 +36,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         UserDao userDao = new UserDao();
         String email = req.getParameter("inputEmail");
         String password = req.getParameter("inputPassword");
@@ -51,9 +52,9 @@ public class LoginController extends HttpServlet {
                 remember = true;
             Auth.login(resp, user, remember);
             if("admin".equals(Auth.getValueCookie(req, "edocUserRole"))){
-                resp.sendRedirect("/rdo");
+                resp.sendRedirect("rdo");
             }else {
-                resp.sendRedirect("/record");
+                resp.sendRedirect("record");
             }
         }
     }

@@ -35,11 +35,11 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (!Auth.isLoged(req,resp)) {
-            resp.sendRedirect("/login");
+            resp.sendRedirect("login");
         } else if (req.getQueryString() == null) {
-            resp.sendRedirect("/user?action=userList");
+            resp.sendRedirect("user?action=userList");
         } else if (!"admin".equals(Auth.getValueCookie(req, "edocUserRole"))) {
-            resp.sendRedirect("/record?action=request");
+            resp.sendRedirect("record?action=request");
         } else {
             String action = req.getParameter("action");
             String forward = "";
@@ -67,6 +67,7 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         User user = new User();
         RdoDao rdoDao = new RdoDao();
         user.setFirstname(req.getParameter("firstname"));
@@ -83,7 +84,7 @@ public class UserController extends HttpServlet {
             userDao.updateUser(user);
         }
 
-        resp.sendRedirect("/user?action=userList");
+        resp.sendRedirect("user?action=userList");
 
 //        RequestDispatcher view = req.getRequestDispatcher(LIST_USER);
 //        req.setAttribute("users", userDao.getAllUsers());

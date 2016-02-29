@@ -14,7 +14,6 @@ public class Record {
     private Rdo rdo;
     private Date dateSent;
     private Date dateWork;
-    private String urlForFileOfFailure;
     private User userSender;
     private boolean recordStatus;
     private String fileAnswer;
@@ -72,6 +71,7 @@ public class Record {
     }
 
     public String getFileRequest() {
+        System.out.println("t\t" + fileRequest);
         return fileRequest;
     }
 
@@ -98,17 +98,8 @@ public class Record {
     public Date getDateWork() {
         return dateWork;
     }
-
     public void setDateWork(Date dateWork) {
         this.dateWork = dateWork;
-    }
-
-    public String getUrlForFileOfFailure() {
-        return urlForFileOfFailure;
-    }
-
-    public void setUrlForFileOfFailure(String urlForFileOfFailure) {
-        this.urlForFileOfFailure = urlForFileOfFailure;
     }
 
     public User getUserSender() {
@@ -141,5 +132,26 @@ public class Record {
 
     public void setRecordRead(boolean recordRead) {
         this.recordRead = recordRead;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "idRecord=" + idRecord +
+                ", number=" + number +
+                ", dateOfReceiptOfRequest=" + dateOfReceiptOfRequest +
+                ", correspondent='" + correspondent + '\'' +
+                ", nameRequest='" + nameRequest + '\'' +
+                ", descriptionRequest='" + descriptionRequest + '\'' +
+                ", fileRequest='" + fileRequest + '\'' +
+                ", rdo=" + rdo +
+                ", dateSent=" + dateSent +
+                ", dateWork=" + dateWork +
+                ", userSender=" + userSender +
+                ", recordStatus=" + recordStatus +
+                ", fileAnswer='" + fileAnswer + '\'' +
+                ", recordRead=" + recordRead +
+                '}';
     }
 }

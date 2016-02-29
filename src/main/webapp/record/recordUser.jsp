@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <div class="well lead">Запис на прийом</div>
-    <form method="post" action="/record" enctype="multipart/form-data">
+    <form method="post" action="record" enctype="multipart/form-data">
 
         <%--id_record--%>
         <div class="row">
@@ -83,8 +83,8 @@
                 <span class="col-md-3 control-lable">Файл документа</span>
                 <div class="col-md-7">
                     <input type="text" hidden name="file_request" class="btn btn-info" readonly
-                           value="${record.nameRequest}">
-                    <a href="${record.nameRequest}">${fileName}</a>
+                           value="${record.fileRequest}">
+                    <a href="${record.fileRequest}">${record.fileName}</a>
                 </div>
             </div>
         </div>
@@ -131,14 +131,14 @@
         </div>
 
         <%--file_answer--%>
-        <div class="row" id="file_answer">
-            <div class="form-group col-md-12">
-                <span class="col-md-3 control-lable">Файл відмова</span>
-                <div class="col-md-7">
-                    <input type="file" name="file_answer" class="btn btn-info">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <span class="col-md-3 control-lable">Файл документа</span>
+                    <div class="col-md-7">
+                        <input type="file" name="file_answer" class="btn btn-info">
+                    </div>
                 </div>
             </div>
-        </div>
 
         <div class="row">
             <div class="form-actions floatRight">
@@ -146,7 +146,7 @@
                 <input type="submit" value="Зберегти" class="btn btn-primary btn-sm"/>
 
                 або
-                <a class="btn btn-danger btn-sm" href="/record?action=recordList">Відмінити</a>
+                <a class="btn btn-danger btn-sm" href="record?action=recordList">Відмінити</a>
             </div>
         </div>
     </form>

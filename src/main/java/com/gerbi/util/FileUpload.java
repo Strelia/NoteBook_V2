@@ -11,59 +11,66 @@ public class FileUpload {
 
 
     public String upload(Part filePart) throws IOException {
-
-        Properties prop = new Properties();
-        InputStream inputStream = FileUpload.class.getClassLoader().getResourceAsStream("/res.properties");
-        prop.load(inputStream);
-        String pathDir = prop.getProperty("file_path");
-        String pathUrl = prop.getProperty("file_url");
         final String fileName = getFileName(filePart);
-        String path = "";
-        OutputStream out = null;
-        InputStream filecontent = null;
+        if (fileName == null || fileName.isEmpty()) {
+            return null;
+        } else {
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+            Properties prop = new Properties();
+            InputStream inputStream = FileUpload.class.getClassLoader().getResourceAsStream("/res.properties");
+            prop.load(inputStream);
+            String pathDir = prop.getProperty("file_path");
+            String pathUrl = prop.getProperty("file_url");
 
-        File dir = new File(pathDir+year+"\\");
+            String path = "";
+            OutputStream out = null;
 
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
+            InputStream filecontent = null;
 
-        pathDir = pathDir.charAt(pathDir.length()-1) == '\\' ? pathDir : pathDir + "\\";
-        pathUrl = pathUrl.charAt(pathUrl.length()-1) == '/' ? pathUrl : pathUrl + "/";
+            int year = Calendar.getInstance().get(Calendar.YEAR);
 
-        pathDir += year+"\\";
+            File dir = new File(pathDir + year + "\\");
 
-        try {
-            out = new FileOutputStream(new File(pathDir + File.separator
-                    + fileName));
-            filecontent = filePart.getInputStream();
-
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-
-            while ((read = filecontent.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
+            if (!dir.exists()) {
+                dir.mkdirs();
             }
 
-            path = pathUrl + year+ "/" + fileName;
+            pathDir = pathDir.charAt(pathDir.length() - 1) == '\\' ? pathDir : pathDir + "\\";
+            pathUrl = pathUrl.charAt(pathUrl.length() - 1) == '/' ? pathUrl : pathUrl + "/";
 
-        } catch (FileNotFoundException e) {
-            System.err.println(e);
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-            if (filecontent != null) {
-                try {
-                    filecontent.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            pathDir += year + "\\";
+
+            try {
+                out = new FileOutputStream(new File(pathDir + File.separator
+                        + fileName));
+                filecontent = filePart.getInputStream();
+
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+
+                while ((read = filecontent.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+
+                path = pathUrl + year + "/" + fileName;
+
+            } catch (FileNotFoundException e) {
+                System.err.println(e);
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+                if (filecontent != null) {
+                    try {
+                        filecontent.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
+            return path;
         }
-        return path;
     }
 
 

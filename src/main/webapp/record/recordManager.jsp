@@ -42,8 +42,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">ID Користувача</span>
                 <div class="col-md-7">
-                    <input type="text" readonly name="idUser" class="form-control input-sm"
-                           value="<c:out value="${record.idRecord}"/>"/>
+                    <input type="text" readonly name="id_record" class="form-control input-sm"/>
                 </div>
             </div>
         </div>

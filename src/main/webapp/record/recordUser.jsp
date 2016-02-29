@@ -8,7 +8,7 @@
     <link href="<c:url value='/static/css/bootstrap.css'/>" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="<c:url value='/static/js/bootstrap.js'/>"></script>
-    <script src="<c:url value='/static/js/checkAnswer.js'/>"></script>
+    <script src="<c:url value='/static/js/recordUser.js'/>"></script>
     <title>${title}</title>
 </head>
 <body>
@@ -43,7 +43,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">ID Користувача</span>
                 <div class="col-md-7">
-                    <input type="text" readonly name="idUser" class="form-control input-sm"
+                    <input type="text" readonly name="id_record" class="form-control input-sm"
                            value="<c:out value="${record.idRecord}"/>"/>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                 <div class="col-md-7">
                     <select name="rdo" class="form-control input-sm">
                         <c:forEach items="${rdos}" var="rdo">
-                            <option value="${rdo.idRdo}" ${rdo.idRdo == record.rdo.idRdo ? "selected" : ""}>${rdo.name}</option>
+                            <option value="${rdo.idRdo}" ${rdo.idRdo == record.rdo.idRdo ? "selected" : "disabled"}>${rdo.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -129,7 +129,7 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Дата передачі</span>
                 <div class="col-md-7">
-                    <input type="date" name="date_sent" class="form-control input-sm" hidden
+                    <input type="date" name="date_sent" readonly class="form-control input-sm" hidden
                            value="<fmt:formatDate type="date" pattern="yyyy-MM-dd" value="${record.dateSent}"/>">
                 </div>
             </div>
@@ -140,7 +140,17 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Дата роботи</span>
                 <div class="col-md-7">
-                    <input type="date" name="date_work" class="form-control input-sm" hidden>
+                    <input type="date" name="date_work" class="form-control input-sm">
+                </div>
+            </div>
+        </div>
+
+        <%--user_sender--%>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <span class="col-md-3 control-lable">Відправляючий</span>
+                <div class="col-md-7">
+                    <input type="date" name="user_sender" class="form-control input-sm" readonly value="${record.userSender.email}">
                 </div>
             </div>
         </div>
@@ -148,19 +158,19 @@
         <%--record_status--%>
         <div class="checkbox">
             <label>
-                <input id="check_answer" name="record_status" value="accept" type="checkbox" checked> Прийняти
+                <input  id="accept" name="record_status" value="accept" type="checkbox" checked> Прийняти
             </label>
         </div>
 
         <%--file_answer--%>
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <span class="col-md-3 control-lable">Файл документа</span>
-                    <div class="col-md-7">
-                        <input type="file" name="file_answer" class="btn btn-info">
-                    </div>
+        <div class="row" id="file_answer" style="visibility: hidden">
+            <div class="form-group col-md-12">
+                <span class="col-md-3 control-lable">Файл документа</span>
+                <div class="col-md-7">
+                    <input id="file_answ" type="file" name="file_answer" class="btn btn-info">
                 </div>
             </div>
+        </div>
 
         <div class="row">
             <div class="form-actions floatRight">

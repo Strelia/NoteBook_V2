@@ -43,6 +43,9 @@
     </header>
 
     <div class="row marketing">
+        <div class="col-lg-10" ${userRole != "manager"?"hidden":""}>
+            <a class="btn btn-info" href="record?action=addNewRecord">Add record</a>
+        </div>
         <div class="col-lg-10">
             <table class="table">
                 <thead>
@@ -62,8 +65,17 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${records}" var="record">
-                    <tr class="${record.recordRead == false? "active":""} ${record.recordStatus == true && record.recordRead == true?
-                    "success" : "danger"}">
+                    <tr class="${record.recordRead == false? "active":""}
+
+                      <c:choose>
+                                <c:when test="${record.recordStatus == true && record.recordRead == true}">
+                                   success
+                                </c:when>
+                                <c:when test="${record.recordStatus == false && record.recordRead == true}">
+                                   danger
+                                </c:when>
+                            </c:choose>
+                            ">
                         <td>${record.number}</td>
                         <td>${record.correspondent}</td>
                         <td><fmt:formatDate type="DATE" pattern="yyyy-MM-dd"
@@ -78,15 +90,12 @@
                             <c:choose>
                                 <c:when test="${record.recordStatus == true && record.recordRead == true}">
                                     Прийняли
-                                    <br/>
                                 </c:when>
                                 <c:when test="${record.recordStatus == false && record.recordRead == true}">
                                     Відмовили
-                                    <br/>
                                 </c:when>
                                 <c:otherwise>
                                     -
-                                    <br/>
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -96,9 +105,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-        </div>
-        <div class="col-lg-10" ${userRole != "manager"?"hidden":""}>
-            <a class="btn btn-info" href="record?action=addNewRecord">Add record</a>
         </div>
     </div>
 </div>

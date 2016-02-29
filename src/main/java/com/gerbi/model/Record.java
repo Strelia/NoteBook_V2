@@ -71,7 +71,6 @@ public class Record {
     }
 
     public String getFileRequest() {
-        System.out.println("t\t" + fileRequest);
         return fileRequest;
     }
 

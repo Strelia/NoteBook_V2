@@ -6,7 +6,6 @@ import com.gerbi.util.DbUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecordDao {
 
@@ -42,10 +41,7 @@ public class RecordDao {
 
     public void updateRecord(Record record) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE record SET " +
-                    "number=?, date_of_receipt_request=?, correspondent=?, name_request=?, description_request=?," +
-                    "file_request=?, rdo=?,date_sent=?, date_work=?, user_sender=?, record_status=?, file_answer=?," +
-                    "record_read=? WHERE id_record = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE record SET number=?,date_of_receipt_request=?, correspondent=?, name_request=?, description_request=?,file_request=?, rdo=?,date_sent=?, date_work=?, user_sender=?, record_status=?, file_answer=?,record_read=? WHERE id_record = ?");
             preparedStatement.setLong(1, record.getNumber());
             preparedStatement.setDate(2, new java.sql.Date(record.getDateOfReceiptOfRequest().getTime()));
             preparedStatement.setString(3, record.getCorrespondent());
@@ -88,7 +84,7 @@ public class RecordDao {
                 record.setUserSender(userDao.getUserById(resultSet.getLong("user_sender")));
                 record.setRecordStatus(resultSet.getBoolean("record_status"));
                 record.setFileAnswer(resultSet.getString("file_answer"));
-                record.setRecordStatus(resultSet.getBoolean("record_read"));
+                record.setRecordRead(resultSet.getBoolean("record_read"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,7 +115,7 @@ public class RecordDao {
                 record.setUserSender(userDao.getUserById(resultSet.getLong("user_sender")));
                 record.setRecordStatus(resultSet.getBoolean("record_status"));
                 record.setFileAnswer(resultSet.getString("file_answer"));
-                record.setRecordStatus(resultSet.getBoolean("record_read"));
+                record.setRecordRead(resultSet.getBoolean("record_read"));
                 records.add(record);
             }
         } catch (SQLException e) {

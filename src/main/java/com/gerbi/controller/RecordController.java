@@ -58,14 +58,8 @@ public class RecordController extends HttpServlet {
             String userRole = Auth.getValueCookie(req, "edocUserRole");
 
             if (action.equalsIgnoreCase("request")) {
-
                 long idRecord = Long.valueOf(req.getParameter("idRecord"));
-
                 Record record = recordDao.getRecordById(idRecord);
-
-
-
-
                 if (!record.getRecordRead() && "user".equals(userRole)) {
                     forward = ANSWER_USER;
                 } else {
@@ -110,20 +104,24 @@ public class RecordController extends HttpServlet {
         record.setCorrespondent(req.getParameter("correspondent"));
         record.setNameRequest(req.getParameter("name_request"));
         record.setDescriptionRequest(req.getParameter("description_request"));
-        record.setFileRequest(fileUpload.upload(req.getPart("file_request")));
         record.setRdo(rdoDao.getRdoById(Long.valueOf(req.getParameter("rdo"))));
         record.setDateSent(new Date());
-
-        String idRecord = req.getParameter("idRecord");
-
+        String idRecord = req.getParameter("id_record");
         if (idRecord == null || idRecord.isEmpty()) {
-
+            record.setFileRequest(fileUpload.upload(req.getPart("file_request")));
             record.setUserSender(userDao.getUserByEmail(Auth.getValueCookie(req, "edocUserEmail")));
             record.setRecordRead(false);
-
             recordDao.addRecord(record);
-
         } else {
+            record.setFileRequest(req.getParameter("file_request"));
+            record.setFileAnswer(fileUpload.upload(req.getPart("file_answer")));
+            String accept = req.getParameter("record_status");
+            if (accept == null || !"accept".equals(accept)) {
+                record.setRecordStatus(false);
+            } else {
+                record.setRecordStatus(true);
+            }
+            record.setRecordRead(true);
 
             try {
                 date = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("date_work"));
@@ -131,9 +129,7 @@ public class RecordController extends HttpServlet {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            record.setRecordStatus("accept".equals(req.getParameter("record_status")) ? true : false);
-            record.setFileAnswer(fileUpload.upload(req.getPart("file_answer")));
-            record.setRecordRead(true);
+            record.setUserSender(userDao.getUserByEmail(req.getParameter("user_sender")));
             record.setIdRecord(Long.valueOf(idRecord));
             recordDao.updateRecord(record);
         }

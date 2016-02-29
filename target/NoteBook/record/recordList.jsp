@@ -12,6 +12,36 @@
 </head>
 <body>
 <div class="container">
+
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Електронний записник</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <c:choose>
+                            <c:when test="${userRole == 'admin'}">
+                                <li><a href="user">Користувачі</a></li>
+                                <li><a href="rdo">РДО</a></li>
+                            </c:when>
+                        </c:choose>
+                        <li><a href="record">Записи</a></li>
+                        <li><a href="logout">Вихід</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+    </header>
+
     <div class="row marketing">
         <div class="col-lg-10">
             <table class="table">
@@ -48,15 +78,15 @@
                             <c:choose>
                                 <c:when test="${record.recordStatus == true && record.recordRead == true}">
                                     Прийняли
-                                    <br />
+                                    <br/>
                                 </c:when>
                                 <c:when test="${record.recordStatus == false && record.recordRead == true}">
                                     Відмовили
-                                    <br />
+                                    <br/>
                                 </c:when>
                                 <c:otherwise>
                                     -
-                                    <br />
+                                    <br/>
                                 </c:otherwise>
                             </c:choose>
                         </td>

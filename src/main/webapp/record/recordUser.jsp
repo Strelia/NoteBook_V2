@@ -13,6 +13,28 @@
 </head>
 <body>
 <div class="container">
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Електронний записник</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="record">Записи</a></li>
+                        <li><a href="logout">Вихід</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+    </header>
     <div class="well lead">Запис на прийом</div>
     <form method="post" action="record" enctype="multipart/form-data">
 
@@ -73,7 +95,7 @@
                 <span class="col-md-3 control-lable">Зміст документа</span>
                 <div class="col-md-7">
                     <textarea name="description_request" readonly class="form-control input-sm" style="resize:none"
-                              cols="150" rows="8">value="${record.descriptionRequest}"</textarea>
+                              cols="150" rows="8">${record.descriptionRequest}</textarea>
                 </div>
             </div>
         </div>
@@ -82,9 +104,9 @@
             <div class="form-group col-md-12">
                 <span class="col-md-3 control-lable">Файл документа</span>
                 <div class="col-md-7">
-                    <input type="text" hidden name="file_request" class="btn btn-info" readonly
+                    <input type="hidden" name="file_request" class="btn btn-info"
                            value="${record.fileRequest}">
-                    <a href="${record.fileRequest}">${record.fileName}</a>
+                    <a href="${record.fileRequest}">${record.nameRequest}</a>
                 </div>
             </div>
         </div>
@@ -116,7 +138,7 @@
         <%--date_work--%>
         <div class="row">
             <div class="form-group col-md-12">
-                <span class="col-md-3 control-lable">Дата передачі</span>
+                <span class="col-md-3 control-lable">Дата роботи</span>
                 <div class="col-md-7">
                     <input type="date" name="date_work" class="form-control input-sm" hidden>
                 </div>

@@ -63,9 +63,13 @@ public class RecordController extends HttpServlet {
 
                 Record record = recordDao.getRecordById(idRecord);
 
+
+
+
                 if (!record.getRecordRead() && "user".equals(userRole)) {
                     forward = ANSWER_USER;
                 } else {
+                    req.setAttribute("userRole", userRole);
                     forward = WATCH_ALL;
                 }
                 title = "Запис №" + record.getNumber();
@@ -76,6 +80,7 @@ public class RecordController extends HttpServlet {
                 forward = LIST_RECORD;
                 req.setAttribute("records", recordDao.getAllRecord());
                 req.setAttribute("userRole", userRole);
+
             } else {
                 title = "Створення нового запису";
                 Record record = new Record();

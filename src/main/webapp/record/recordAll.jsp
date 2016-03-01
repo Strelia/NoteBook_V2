@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -176,8 +177,9 @@
                     <div class="form-group col-md-12">
                         <span class="col-md-3 control-lable">Файл відмова</span>
                         <div class="col-md-7">
+                            <c:set var="fileName" value="${fn:split(record.fileAnswer,'/')}"/>
                             <a class="btn btn-default btn-lg active" target="_blank"
-                               href="${record.fileAnswer}">${record.fileAnswer}</a>
+                               href="${record.fileAnswer}">${fileName[fn:length(fileName)-1]}</a>
                         </div>
                     </div>
                 </div>
